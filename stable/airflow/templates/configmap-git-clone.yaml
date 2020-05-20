@@ -23,7 +23,11 @@ data:
     {{- if .Values.dags.git.secret }}
     cp -rL /keys/* ~/.ssh/
     chmod 600 ~/.ssh/*
-    echo -e "Host $REPO_HOST\n  Port $REPO_PORT\n  IdentityFile ~/.ssh/$PRIVATE_KEY" > ~/.ssh/config
+    cat << EOF > ~/.ssh/config
+    Host $REPO_HOST
+    Port $REPO_PORT
+    IdentityFile ~/.ssh/$PRIVATE_KEY
+    EOF
     {{- end }}
     # Init Containers will re-run on Pod restart. Remove the directory's contents
     # and reprovision when this happens.
